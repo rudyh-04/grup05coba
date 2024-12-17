@@ -13,8 +13,6 @@ st.subheader('Supply Chain Departement')
 st.subheader('Cikarang Plant')
 
 
-st.sidebar()
-
 
 
 
