@@ -13,13 +13,8 @@ st.subheader('Supply Chain Departement')
 st.subheader('Cikarang Plant')
 
 
-st.sidebar.header('Feedback')
+st.sidebar()
 
-option = st.sidebar.selectbox(
-    'Please Select',
-    ('Good', 'Not Good','Observation')
-)
-option = st.sidebar.button('save')
 
 
 
