@@ -100,5 +100,4 @@ try:
             label="Unduh Data Absensi",
             data=csv,
             file_name='absensi_data.csv',
-            mime='text/csv',
-        )
+            mime='text/csv',)
