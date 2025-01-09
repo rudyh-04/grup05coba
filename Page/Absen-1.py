@@ -17,10 +17,9 @@ with st.form(key='absensi_form'):
     tanggal_masuk = st.date_input("Tanggal Masuk", datetime.date.today())
     tanggal_pulang = st.date_input("Tanggal Pulang", datetime.date.today())
     hadir = st.radio("Status Kehadiran", ('Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'))
-    keterangan = st.text("Keterangan",())
 
     # Input jam masuk
-    jam_masuk = st.time_input("Jam Masuk", datetime.time(9, 0))  # Default jam masuk jam 9 pagi
+    jam_masuk = st.time_input("Jam Masuk", datetime.time(8, 0))  # Default jam masuk jam 8 pagi
     
     # Input jam pulang
     jam_pulang = st.time_input("Jam Pulang", datetime.time(17, 0))  # Default jam pulang jam 5 sore
@@ -30,7 +29,8 @@ with st.form(key='absensi_form'):
     jam_pulang_dt = datetime.datetime.combine(datetime.date.today(), jam_pulang)
     
     # Menghitung jam lembur (jika jam pulang lebih dari jam 17:00)
-    lembur = max(0, (jam_pulang_dt - jam_masuk_dt).seconds / 3600 - 8)  # Menghitung lembur jika lebih dari 8 jam kerja
+    lembur = max(0, (jam_pulang_dt - jam_masuk_dt).seconds / 3600 - 9)  # Menghitung lembur jika lebih dari 9 jam kerja
+    keterangan_lembur = st.text_input("Keterangan Lembur:")
 
     submit_button = st.form_submit_button(label='Kirim')
 
@@ -44,6 +44,7 @@ with st.form(key='absensi_form'):
             'Jam Masuk': [jam_masuk],
             'Jam Pulang': [jam_pulang],
             'Durasi Lembur (jam)': [lembur]
+            'Keterangan Lembur': [keterangan_lembur}
         }
         df = pd.DataFrame(data)
 
