@@ -95,10 +95,10 @@ try:
         st.success("Perubahan berhasil disimpan!")
         
         # Fitur untuk mengunduh data ke CSV
-            csv = df.to_csv(index=False).encode('utf-8')
-                st.download_button(
-                   label="Unduh Data Absensi",
-                   data=csv,
-                   file_name='absensi_data.csv',
-                   mime='text/csv',
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Unduh Data Absensi",
+            data=csv,
+            file_name='absensi_data.csv',
+            mime='text/csv',
         )
