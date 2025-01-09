@@ -66,7 +66,7 @@ try:
     st.subheader("Koreksi Data Absensi")
     index_to_edit = st.selectbox("Pilih entri untuk dikoreksi", absensi_data.index)
 
-    if st.button("Edit"):
+if st.button("Edit"):
     selected_row = absensi_data.iloc[index_to_edit]
     new_nama = st.text_input("Nama Karyawan", value=selected_row['Nama'])
     new_tanggal = st.date_input("Tanggal Masuk", value=pd.to_datetime(selected_row['Tanggal Masuk']))
