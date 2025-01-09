@@ -17,6 +17,7 @@ with st.form(key='absensi_form'):
     tanggal_masuk = st.date_input("Tanggal Masuk", datetime.date.today())
     tanggal_pulang = st.date_input("Tanggal Pulang", datetime.date.today())
     hadir = st.radio("Status Kehadiran", ('Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'))
+    keterangan = st.text("Keterangan",())
 
     # Input jam masuk
     jam_masuk = st.time_input("Jam Masuk", datetime.time(9, 0))  # Default jam masuk jam 9 pagi
