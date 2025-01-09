@@ -102,3 +102,6 @@ try:
             file_name='absensi_data.csv',
             mime='text/csv',
         )
+
+except Exception as e:
+    st.error(f"Terjadi kesalahan saat memuat data absensi: {e}")
