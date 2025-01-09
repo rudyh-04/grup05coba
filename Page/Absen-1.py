@@ -44,7 +44,7 @@ with st.form(key='absensi_form'):
             'Jam Masuk': [jam_masuk],
             'Jam Pulang': [jam_pulang],
             'Durasi Lembur (jam)': [lembur],
-            'Keterangan Lembur': Keterangan_lembur
+            'Keterangan Lembur': [Keterangan_lembur]
         }
         df = pd.DataFrame(data)
 
