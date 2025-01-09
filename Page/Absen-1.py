@@ -95,7 +95,7 @@ try:
         st.success("Perubahan berhasil disimpan!")
         
         # Fitur untuk mengunduh data ke CSV
-                csv = df.to_csv(index=False).encode('utf-8')
+            csv = df.to_csv(index=False).encode('utf-8')
                 st.download_button(
                    label="Unduh Data Absensi",
                    data=csv,
