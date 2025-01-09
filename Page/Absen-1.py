@@ -50,7 +50,7 @@ with st.form(key='absensi_form'):
 
         # Menyimpan ke file CSV
         try:
-            existing_data = pd.read_csv('absensi.csv', names=['Nama', 'Tanggal Masuk', 'Tanggal Pulang', 'Kehadiran', 'Jam Masuk', 'Jam Pulang', 'Durasi Lembur (jam)'])
+            existing_data = pd.read_csv('absensi.csv', names=['Nama', 'Tanggal Masuk', 'Tanggal Pulang', 'Kehadiran', 'Jam Masuk', 'Jam Pulang', 'Durasi Lembur (jam)', 'Keterangan Lembur'])
             df = pd.concat([existing_data, df], ignore_index=True)
         except FileNotFoundError:
             pass  # Jika file tidak ada, kita akan membuat file baru
@@ -61,7 +61,7 @@ with st.form(key='absensi_form'):
 # Menampilkan data absensi
 st.subheader("Data Absensi")
 try:
-    absensi_data = pd.read_csv('absensi.csv', names=['Nama', 'Tanggal Masuk', 'Tanggal Pulang', 'Kehadiran', 'Jam Masuk', 'Jam Pulang', 'Durasi Lembur (jam)'])
+    absensi_data = pd.read_csv('absensi.csv', names=['Nama', 'Tanggal Masuk', 'Tanggal Pulang', 'Kehadiran', 'Jam Masuk', 'Jam Pulang', 'Durasi Lembur (jam)', 'Keterangan Lembur'])
     st.write(absensi_data)
 
     # Fitur Koreksi Data
