@@ -1,71 +1,97 @@
-import tkinter as tk
-from tkinter import messagebox
-import csv
-from datetime import datetime
 import streamlit as st
+import pandas as pd 
+import datetime
 
-class AplikasiAbsensi:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Aplikasi Absensi")
-        
-        # Label dan Entry untuk Nama
-        self.label_nama = tk.Label(root, text="Nama:")
-        self.label_nama.pack(pady=10)
-        
-        self.entry_nama = tk.Entry(root)
-        self.entry_nama.pack(pady=10)
-        
-        # Tombol Absen Masuk
-        self.btn_absen_masuk = tk.Button(root, text="Absen Masuk", command=self.absen_masuk)
-        self.btn_absen_masuk.pack(pady=5)
-        
-        # Tombol Absen Keluar
-        self.btn_absen_keluar = tk.Button(root, text="Absen Keluar", command=self.absen_keluar)
-        self.btn_absen_keluar.pack(pady=5)
-        
-        # Tombol Lihat Daftar Absensi
-        self.btn_lihat_absensi = tk.Button(root, text="Lihat Daftar Absensi", command=self.lihat_absensi)
-        self.btn_lihat_absensi.pack(pady=5)
-        
-        # Tombol Keluar
-        self.btn_keluar = tk.Button(root, text="Keluar", command=root.quit)
-        self.btn_keluar.pack(pady=5)
+# Judul Aplikasi
+st.image("Pentachem.jpg")
+st.title("Aplikasi Absensi")
+st.header("Supply Chain Department")
 
-    def absen_masuk(self):
-        nama = self.entry_nama.get()
-        if nama:
-            waktu_masuk = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            with open('absensi.csv', mode='a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow([nama, waktu_masuk, "Masuk"])
-            messagebox.showinfo("Info", f"{nama} telah absen masuk pada {waktu_masuk}")
-            self.entry_nama.delete(0, tk.END)
-        else:
-            messagebox.showwarning("Peringatan", "Nama tidak boleh kosong!")
+# Fungsi untuk menyimpan data ke CSV
+def save_data(df):
+    df.to_csv('absensi.csv', mode='w', header=False, index=False)
 
-    def absen_keluar(self):
-        nama = self.entry_nama.get()
-        if nama:
-            waktu_keluar = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            with open('absensi.csv', mode='a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow([nama, waktu_keluar, "Keluar"])
-            messagebox.showinfo("Info", f"{nama} telah absen keluar pada {waktu_keluar}")
-            self.entry_nama.delete(0, tk.END)
-        else:
-            messagebox.showwarning("Peringatan", "Nama tidak boleh kosong!")
+# Formulir untuk mencatat kehadiran
+with st.form(key='absensi_form'):
+    nama = st.text_input("Nama Karyawan")
+    tanggal_masuk = st.date_input("Tanggal Masuk", datetime.date.today())
+    tanggal_pulang = st.date_input("Tanggal Pulang", datetime.date.today())
+    hadir = st.radio("Status Kehadiran", ('Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'))
 
-    def lihat_absensi(self):
+    # Input jam masuk
+    jam_masuk = st.time_input("Jam Masuk", datetime.time(9, 0))  # Default jam masuk jam 9 pagi
+    
+    # Input jam pulang
+    jam_pulang = st.time_input("Jam Pulang", datetime.time(17, 0))  # Default jam pulang jam 5 sore
+    
+    # Menghitung durasi lembur
+    jam_masuk_dt = datetime.datetime.combine(datetime.date.today(), jam_masuk)
+    jam_pulang_dt = datetime.datetime.combine(datetime.date.today(), jam_pulang)
+    
+    # Menghitung jam lembur (jika jam pulang lebih dari jam 17:00)
+    lembur = max(0, (jam_pulang_dt - jam_masuk_dt).seconds / 3600 - 8)  # Menghitung lembur jika lebih dari 8 jam kerja
+
+    submit_button = st.form_submit_button(label='Kirim')
+
+    if submit_button:
+        # Menyimpan data ke dalam DataFrame
+        data = {
+            'Nama': [nama],
+            'Tanggal Masuk': [tanggal_masuk],
+            'Tanggal Pulang': [tanggal_pulang],
+            'Kehadiran': [hadir],
+            'Jam Masuk': [jam_masuk],
+            'Jam Pulang': [jam_pulang],
+            'Durasi Lembur (jam)': [lembur]
+        }
+        df = pd.DataFrame(data)
+
+        # Menyimpan ke file CSV
         try:
-            with open('absensi.csv', mode='r') as file:
-                reader = csv.reader(file)
-                absensi = "\n".join([f"Nama: {row[0]}, Waktu: {row[1]}, Tipe: {row[2]}" for row in reader])
-                messagebox.showinfo("Daftar Absensi", absensi)
+            existing_data = pd.read_csv('absensi.csv', names=['Nama', 'Tanggal Masuk', 'Tanggal Pulang', 'Kehadiran', 'Jam Masuk', 'Jam Pulang', 'Durasi Lembur (jam)'])
+            df = pd.concat([existing_data, df], ignore_index=True)
         except FileNotFoundError:
-            messagebox.showwarning("Peringatan", "Belum ada data absensi.")
+            pass  # Jika file tidak ada, kita akan membuat file baru
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = AplikasiAbsensi(root)
-    root.mainloop()
+        save_data(df)
+        st.success("Data absensi berhasil disimpan!")
+
+# Menampilkan data absensi
+st.subheader("Data Absensi")
+try:
+    absensi_data = pd.read_csv('absensi.csv', names=['Nama', 'Tanggal Masuk', 'Tanggal Pulang', 'Kehadiran', 'Jam Masuk', 'Jam Pulang', 'Durasi Lembur (jam)'])
+    st.write(absensi_data)
+
+    # Fitur Koreksi Data
+    st.subheader("Koreksi Data Absensi")
+    index_to_edit = st.selectbox("Pilih entri untuk dikoreksi", absensi_data.index)
+
+    if st.button("Edit"):
+    selected_row = absensi_data.iloc[index_to_edit]
+    new_nama = st.text_input("Nama Karyawan", value=selected_row['Nama'])
+    new_tanggal = st.date_input("Tanggal Masuk", value=pd.to_datetime(selected_row['Tanggal Masuk']))
+    new_tanggal = st.date_input("Tanggal Pulang", value=pd.to_datetime(selected_row['Tanggal Pulang']))
+    new_hadir = st.radio("Status Kehadiran", ('Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'), index=['Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'].index(selected_row['Kehadiran']))
+    new_jam_masuk = st.time_input("Jam Masuk", value=pd.to_datetime(selected_row['Jam Masuk']).time())
+    new_jam_pulang = st.time_input("Jam Pulang", value=pd.to_datetime(selected_row['Jam Pulang']).time())
+
+    # Menghitung durasi lembur baru
+    new_jam_masuk_dt = datetime.datetime.combine(datetime.date.today(), new_jam_masuk)
+    new_jam_pulang_dt = datetime.datetime.combine(datetime.date.today(), new_jam_pulang)
+    new_lembur = max(0, (new_jam_pulang_dt - new_jam_masuk_dt).seconds / 3600 - 9)
+
+    if st.button("Simpan Perubahan"):
+        # Memperbarui DataFrame dengan nilai baru
+        absensi_data.at[index_to_edit, 'Nama'] = new_nama
+        absensi_data.at[index_to_edit, 'Tanggal Masuk'] = new_tanggal
+        absensi_data.at[index_to_edit, 'Tanggal Pulang'] = new_tanggal
+        absensi_data.at[index_to_edit, 'Kehadiran'] = new_hadir
+        absensi_data.at[index_to_edit, 'Jam Masuk'] = new_jam_masuk
+        absensi_data.at[index_to_edit, 'Jam Pulang'] = new_jam_pulang
+        absensi_data.at[index_to_edit, 'Durasi Lembur (jam)'] = new_lembur
+
+        # Menyimpan kembali ke file CSV
+        save_data(absensi_data)
+        st.success("Perubahan berhasil disimpan!")
+
+   
