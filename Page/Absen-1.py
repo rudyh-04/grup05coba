@@ -66,14 +66,14 @@ try:
     st.subheader("Koreksi Data Absensi")
     index_to_edit = st.selectbox("Pilih entri untuk dikoreksi", absensi_data.index)
 
-if st.button("Edit"):
-    selected_row = absensi_data.iloc[index_to_edit]
-    new_nama = st.text_input("Nama Karyawan", value=selected_row['Nama'])
-    new_tanggal = st.date_input("Tanggal Masuk", value=pd.to_datetime(selected_row['Tanggal Masuk']))
-    new_tanggal = st.date_input("Tanggal Pulang", value=pd.to_datetime(selected_row['Tanggal Pulang']))
-    new_hadir = st.radio("Status Kehadiran", ('Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'), index=['Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'].index(selected_row['Kehadiran']))
-    new_jam_masuk = st.time_input("Jam Masuk", value=pd.to_datetime(selected_row['Jam Masuk']).time())
-    new_jam_pulang = st.time_input("Jam Pulang", value=pd.to_datetime(selected_row['Jam Pulang']).time())
+    if st.button("Edit"):
+        selected_row = absensi_data.iloc[index_to_edit]
+        new_nama = st.text_input("Nama Karyawan", value=selected_row['Nama'])
+        new_tanggal = st.date_input("Tanggal Masuk", value=pd.to_datetime(selected_row['Tanggal Masuk']))
+        new_tanggal = st.date_input("Tanggal Pulang", value=pd.to_datetime(selected_row['Tanggal Pulang']))
+        new_hadir = st.radio("Status Kehadiran", ('Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'), index=['Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'].index(selected_row['Kehadiran']))
+        new_jam_masuk = st.time_input("Jam Masuk", value=pd.to_datetime(selected_row['Jam Masuk']).time())
+        new_jam_pulang = st.time_input("Jam Pulang", value=pd.to_datetime(selected_row['Jam Pulang']).time())
 
     # Menghitung durasi lembur baru
     new_jam_masuk_dt = datetime.datetime.combine(datetime.date.today(), new_jam_masuk)
