@@ -13,13 +13,6 @@ st.text("JI. Industri Selatan 1. Blok OO No.3G & KK No.5A. Kawasan Industri JABA
 # Fungsi untuk menyimpan data ke CSV
 def save_data(df):
     df.to_csv('absensi.csv', mode='w', header=False, index=False)
-    
-# Member data
-members = [
-    {"name": "Rudy", "image": "Developer", "description": "Expert in Python and Streamlit."},
-    {"name": "Anna", "role": "Designer", "description": "UI/UX designer with a passion for aesthetics."},
-    {"name": "John", "role": "Data Scientist", "description": "Loves working with data and machine learning."},
-]
 
 # Formulir untuk mencatat kehadiran
 with st.form(key='absensi_form'):
