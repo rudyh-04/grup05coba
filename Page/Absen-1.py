@@ -14,10 +14,6 @@ st.text("JI. Industri Selatan 1. Blok OO No.3G & KK No.5A. Kawasan Industri JABA
 def save_data(df):
     df.to_csv('absensi.csv', mode='w', header=False, index=False)
 
-st.subheader('Member:')
-st.text('Rudy Hariyanto NIK:..........')
-st.image('rudy.jpg')
-
 # Formulir untuk mencatat kehadiran
 with st.form(key='absensi_form'):
     nama = st.text_input("Nama Karyawan")
