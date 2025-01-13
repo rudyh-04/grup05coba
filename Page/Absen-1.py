@@ -10,7 +10,7 @@ st.text("PT. PENTA CHEMICALS INDONESIA")
 st.text("JI. Industri Selatan 1. Blok OO No.3G & KK No.5A. Kawasan Industri JABABEKA Phase II")
 
 st.sidebar.header("Member")
-option = st.sidebar.selectbox('member.py')
+option = st.sidebar('member.py')
 
 # Fungsi untuk menyimpan data ke CSV
 def save_data(df):
