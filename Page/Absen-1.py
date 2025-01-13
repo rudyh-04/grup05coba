@@ -5,8 +5,8 @@ import datetime
 # Judul Aplikasi
 st.image("Pentachem.jpg")
 st.title("Absensi Karyawan")
-st.header("Supply Chain Department")
 st.header("PT. PENTA CHEMICALS INDONESIA")
+st.header("Supply Chain Departement")
 st.text("JI. Industri Selatan 1. Blok OO No.3G & KK No.5A. Kawasan Industri JABABEKA Phase II")
 
 # Fungsi untuk menyimpan data ke CSV
