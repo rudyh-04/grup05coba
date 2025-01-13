@@ -16,7 +16,7 @@ def save_data(df):
 
 st.subheader('Member:')
 st.text('Rudy Hariyanto NIK:..........')
-st.image('rudy.jpg")
+st.image('rudy.jpg')
 
 # Formulir untuk mencatat kehadiran
 with st.form(key='absensi_form'):
