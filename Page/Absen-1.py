@@ -6,6 +6,8 @@ import datetime
 st.image("Pentachem.jpg")
 st.title("Aplikasi Absensi")
 st.header("Supply Chain Department")
+st.text("PT. PENTA CHEMICALS INDONESIA")
+st.text("JI. Industri Selatan 1. Blok OO No.3G")
 
 # Fungsi untuk menyimpan data ke CSV
 def save_data(df):
