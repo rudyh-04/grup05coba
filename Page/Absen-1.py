@@ -71,8 +71,8 @@ try:
     if st.button("Edit"):
         selected_row = absensi_data.iloc[index_to_edit]
         new_nama = st.text_input("Nama Karyawan", value=selected_row['Nama'])
-        new_tanggal = st.date_input("Tanggal Masuk", value=pd.to_datetime(selected_row['Tanggal Masuk']))
-        new_tanggal = st.date_input("Tanggal Pulang", value=pd.to_datetime(selected_row['Tanggal Pulang']))
+        new_tanggal_masuk = st.date_input("Tanggal Masuk", value=pd.to_datetime(selected_row['Tanggal Masuk']))
+        new_tanggal_pulang = st.date_input("Tanggal Pulang", value=pd.to_datetime(selected_row['Tanggal Pulang']))
         new_hadir = st.radio("Status Kehadiran", ('Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'), index=['Hadir', 'Tidak Hadir', 'Ijin', 'Sakit', 'Cuti'].index(selected_row['Kehadiran']))
         new_jam_masuk = st.time_input("Jam Masuk", value=pd.to_datetime(selected_row['Jam Masuk']).time())
         new_jam_pulang = st.time_input("Jam Pulang", value=pd.to_datetime(selected_row['Jam Pulang']).time())
@@ -85,8 +85,8 @@ try:
     if st.button("Simpan Perubahan"):
         # Memperbarui DataFrame dengan nilai baru
         absensi_data.at[index_to_edit, 'Nama'] = new_nama
-        absensi_data.at[index_to_edit, 'Tanggal Masuk'] = new_tanggal
-        absensi_data.at[index_to_edit, 'Tanggal Pulang'] = new_tanggal
+        absensi_data.at[index_to_edit, 'Tanggal Masuk'] = new_tanggal_masuk
+        absensi_data.at[index_to_edit, 'Tanggal Pulang'] = new_tanggal_pulang
         absensi_data.at[index_to_edit, 'Kehadiran'] = new_hadir
         absensi_data.at[index_to_edit, 'Jam Masuk'] = new_jam_masuk
         absensi_data.at[index_to_edit, 'Jam Pulang'] = new_jam_pulang
