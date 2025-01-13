@@ -4,7 +4,7 @@ import datetime
 
 # Judul Aplikasi
 st.image("Pentachem.jpg")
-st.title("Aplikasi Absensi")
+st.title("Absensi Karyawan")
 st.header("Supply Chain Department")
 st.text("PT. PENTA CHEMICALS INDONESIA")
 st.text("JI. Industri Selatan 1. Blok OO No.3G & KK No.5A. Kawasan Industri JABABEKA Phase II")
